@@ -36,7 +36,7 @@ int main() {
     );
 
     // Blank screen
-    memset (fbdata, 0, fb_data_size);
+    memset (fbdata, 255, fb_data_size);
 
     //Tidy up
     munmap (fbdata, fb_data_size);
