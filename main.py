@@ -1,13 +1,18 @@
+import os
 import tkinter as tk
 from screeninfo import get_monitors
-from keys import Bindings
-from UI import UI
-from styles import Styles
+from keybindings import Bindings
+from UI.home import UI
+from dotenv import load_dotenv
 
+load_dotenv()
 
-class Home(tk.Tk, Bindings, UI, Styles):
+class Home(tk.Tk, Bindings, UI):
     def __init__(self, *args, **kwargs):
         monitor = get_monitors()[0]
+
+        self.SSD_PATH = os.getenv("SSD_PATH")
+        self.ICON_PATH = os.getenv("ICON_PATH")
         self.width = monitor.width
         self.height = monitor.height
 
