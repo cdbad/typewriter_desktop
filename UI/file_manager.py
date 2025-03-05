@@ -1,27 +1,27 @@
-from os import listdir
 from PIL import Image, ImageTk
 from tkinter import ttk
+from .focus_setter import set_focus
 
 
 class FileManager:
     def draw_files(self):
-        self.filenames = listdir(self.SSD_PATH)
-
-        self.files = ttk.Frame(self,
-                               borderwidth=1,
+        self.files_frame = ttk.Frame(self,
                                width=self.width-100,
                                height=self.height,
                                style=self.styles.baseFrame)
+        self.files_frame.pack_propagate(False)
 
-        self.icon_refs = []
         for i, file in enumerate(self.filenames):
-            self.icon_refs.append(self.select_image(file.split(".")[1]))
+            img_ref = self.select_image(file.split(".")[1])
+            
+            self.files[file]["img"] = img_ref
 
-            icon_frame = ttk.Frame(self.files,
+            icon_frame = ttk.Frame(self.files_frame,
                                    style=self.styles.iconFrame)
+            self.files[file]["ref"] = icon_frame
 
             image_label = ttk.Label(icon_frame,
-                                    image=self.icon_refs[i],
+                                    image=self.files[file]["img"],
                                     style=self.styles.imgLabel)
             image_label.pack()
 
@@ -30,14 +30,22 @@ class FileManager:
                                   style=self.styles.label)
             file_label.pack()
 
-            icon_frame.grid(column=i, row=0, sticky="w", padx=10, pady=20)
+            icon_frame.grid(column=i, row=0, sticky="w", padx=20, pady=20)
             i += 1
 
-        self.files.grid(column=2, row=0, sticky="swen", padx=45, pady=25)
+        self.files_frame.grid(column=2, row=0, sticky="swen", padx=45, pady=25)
+
+        if len(self.filenames) > 0:
+            set_focus(self.files[self.filenames[0]]["ref"])
     
     def select_image(self, extension):
         if extension == "odt":
             img = Image.open(self.ICON_PATH + "odt-icon.png")
-            img = img.resize((100, 100))
-            img = ImageTk.PhotoImage(img)
-            return img
+        elif extension == "txt":
+            img = Image.open(self.ICON_PATH + "txt-icon.png")
+        elif extension == "docx":
+            img = Image.open(self.ICON_PATH + "docx-icon.png")
+
+        img = img.resize((45, 45))
+        img = ImageTk.PhotoImage(img)
+        return img

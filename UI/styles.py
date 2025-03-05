@@ -11,7 +11,7 @@ class Styles:
         self.s.configure(name,
                     color="black",
                     orient="vertical",
-                    width=5)
+                    width=10)
         return name
     
     @property
@@ -20,6 +20,15 @@ class Styles:
         self.s.configure(name,
                     width=100,
                     background="white")
+        return name
+    
+    @property
+    def testFrame(self):
+        name = "TestFrame.TFrame"
+        self.s.configure(name,
+                    width=100,
+                    background="white",
+                    relief="solid")
         return name
     
     @property
@@ -34,7 +43,7 @@ class Styles:
         name = "Label.TLabel"
         self.s.configure(name,
                     background="white",
-                    font=("Arial", 14))
+                    font=("Arial", 12))
         return name
     
     @property
